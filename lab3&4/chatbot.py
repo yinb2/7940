@@ -18,7 +18,9 @@ def main():
 
     # register a dispatcher to handle message: here we register an echo dispatcher
     echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+    res_handler = MessageHandler(Filters.text & (~Filters.command), res)
     dispatcher.add_handler(echo_handler)
+    dispatcher.add_handler(res_handler)
 
     # To start the bot:
     updater.start_polling()
@@ -30,6 +32,10 @@ def echo(update, context):
     logging.info("Update: " + str(update))
     logging.info("context: " + str(context))
     context.bot.send_message(chat_id=update.effective_chat.id, text= reply_message)
+
+def res(update, context):
+    if update.message.text.upper() == "/hello Kevin":
+        context.bot.send_message(chat_id=update.effective_chat.id, text= "Good day, Kevin")
 
 if __name__ == '__main__':
     main()
